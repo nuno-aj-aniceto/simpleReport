@@ -1,0 +1,270 @@
+% !TeX spellcheck = en_US
+% !TeX encoding = ISO-8859-1
+
+%#
+%# ------------------------------------------------------------------------------
+%#
+%#    Copyright (C) 2014  Nuno AJ de Aniceto <nuno.aja@gmail.com>
+%#
+%#    This program is free software: you can redistribute it and/or modify
+%#    it under the terms of the GNU General Public License as published by
+%#    the Free Software Foundation, either version 3 of the License, or
+%#    (at your option) any later version.
+%#
+%#    This program is distributed in the hope that it will be useful,
+%#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+%#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%#    GNU General Public License for more details.
+%#
+%#    You should have received a copy of the GNU General Public License
+%#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+%#
+%# ------------------------------------------------------------------------------
+%#
+%# If you have the interest, feel free to improve the script, contact me !
+%#
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%
+% 		commands and environment setups...
+%
+%
+
+% -- colors --
+\definecolor{ist-blue}{HTML}{009DE0}
+\definecolor{ist-gray}{HTML}{46555F}
+\definecolor{answer-blue}{HTML}{009DE0}
+\definecolor{answer-gray}{HTML}{46555F}
+
+
+% -- matrix with different line-spacing --
+
+\makeatletter
+\renewcommand*\env@matrix[1][\arraystretch]{% \arraystretch
+\edef\arraystretch{#1}%
+	\hskip -\arraycolsep
+	\let\@ifnextchar\new@ifnextchar
+	\array{*\c@MaxMatrixCols c}}
+\makeatother
+
+% -- matrices and vectors --
+
+%\begingroup
+%\renewcommand*{\arraystretch}{1.5}
+% (pmatrix expression here)
+%\endgroup
+
+% 2/3d column-vectors \cvec[a]{b}{c} or \cvec{x}{y}
+\newcommand*\cvec[3][]{
+    \begin{pmatrix}\ifx\relax#1\relax\else#1\\\fi#2\\#3\end{pmatrix}
+}
+
+% -- boxes --
+
+\newenvironment{bb}{\empheq[box=\boxed]{flalign*}{\textbf{Answer}}\\[10pt]} {\endempheq{\\[10pt]}}
+
+
+% -- inline boxing an important equation (counter) --
+
+\newcommand*\textfbox[2][equation title]{%
+  \begin{tabular}[b]{@{}c@{}}#1\\\fbox{#2}\end{tabular}}
+
+% -- usage example --
+% \begin{empheq}[box={\textfbox[A different equation title]}]{align}
+%   important equation #x (with counter)
+% \end{empheq}
+
+
+% -- avoid indentation (on itemizations, enumerations, listings, etc) --
+% problem: does not allow spanning over several pages - to be resolved !
+\newcommand\NoIndent[1]{
+  \par\vbox{\parbox[t]{\linewidth}{#1}}
+}
+
+% -- answering to question with boxes --
+
+%\makeatletter
+%\newcommand{\answer}[1][(...answer here...) \\ \vspace{25pt}]{
+%	\NoIndent{
+%		\begin{center}
+%				%%\begin{minipage}[c][4em][s]{\textwidth}
+%				\begin{minipage}
+%				{\dimexpr\linewidth-5\fboxsep-1\fboxrule\relax}
+%					\centering{\textbf{\color{answer-blue}{Answer}}}\\[5pt]
+%					\flushleft{\color{answer-gray}{#1}}
+%				\end{minipage}
+%		\end{center}
+%	}
+%	\vspace{25pt}
+%}
+
+%\makeatletter
+\newcommand\answer[1][\par (...answer here...) \vs]{
+	\noindent
+	{
+		\par
+		\begin{center}
+%			\centering{\textbf{\color{answer-blue}{Resposta}}}\\
+			\flushleft{\color{answer-gray}{#1}}
+		\end{center}
+%		\flushleft
+%		\par
+	}
+}
+\newcommand\answerBox[1][(...answer here...) \\ \vspace{25pt}]{
+	\noindent
+	{
+		\par
+		\begin{center}
+			\flushleft{\color{answer-gray}{#1}}
+		\end{center}
+		\par
+	}
+}
+
+\makeatletter
+\newcommand{\answerNI}[1][(...answer here...) \\ \vspace{25pt}]{
+%	\begin{framed}
+	\noindent
+	{
+		\begin{center}
+			\centering{\textbf{\color{answer-blue}{Answer}}}\\
+			\flushleft{\color{answer-gray}{#1}}
+		\end{center}
+	}
+	\vspace{15pt}
+%	\end{framed}
+}
+
+\makeatletter
+\newcommand{\solution}[1][(...solution here...) \\ \vspace{25pt}]{
+	%\begin{framed}
+	\NoIndent
+	{
+		\begin{center}
+			\centering{\textbf{\color{answer-blue}{Solution}}}\\
+			\flushleft{\color{answer-gray}{{#1}}}
+		\end{center}
+	}
+	\vspace{15pt}
+	%\end{framed}
+}
+
+
+\newcommand\homework[1]{
+	\begin{document}
+	\maketitle \thispagestyle{empty}
+	{#1}
+	\end{document}
+}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%
+% 	to test font types and set other options
+%
+%
+%\makeatletter
+%\newcommand*{\alphabet}{abcdefghijklmnopqrstuvwxyz}
+%\newcommand*{\showalphabetwidth}[2]{%
+%  \fontfamily{#1}\selectfont
+%  \settowidth{\@tempdima}{\alphabet}%
+%  \alphabet~-- width for #2 at 1\@ptsize pt: \the\@tempdima
+%}
+%\makeatother
+%
+%\showalphabetwidth{cmr}{Computer Modern}
+%\showalphabetwidth{ptm}{Times New Roman}
+%\showalphabetwidth{ppl}{Palatino}
+
+
+%minipage:
+%\hangindent=-2in
+%\hangafter=5
+%\usepackage{parskip}
+%\setlength{\parindent}{5pt}
+%
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%
+% 		document info and style setup:
+%	 		title, author, date, headers, etc...
+%
+%
+
+
+%\makeatletter
+%\title{
+%	\begin{center}
+%		%\includegraphics[scale=0.25]{ist_logo.png}\\
+%		\includegraphics[scale=0.4]{../@logos/ist_logo.png}\\
+%		\vspace{20pt}
+%		\hrulefill\\
+%		\vspace{15pt}
+%		\vspace{-100pt}
+%		\textbf{Information and Computation for AI}\\
+%		Homework \#7\\
+%	\end{center}
+%		\vspace{15pt}
+
+\renewcommand*{\familydefault}{\sfdefault}
+
+\makeatletter
+\title{
+		\vspace{-2cm}
+		\begin{multicols}{2}
+			\flushright
+			\color{ist-gray}
+			\textbf{\huge{\discipline}}\\{\Large \subTitle}\\
+		\columnbreak
+			\flushleft
+			\includegraphics[scale=0.35]{\logotype}
+		\end{multicols}
+		\vspace{-1cm}
+} \let\Title\@title
+
+\date{
+	\today \\
+	\hrulefill\\
+	\vspace{15pt}
+} \let\Date\@date
+
+%\fontfamily{ppl}\selectfont
+%\renewcommand*{\familydefault}{\rmdefault}
+%\renewcommand*{\familydefault}{\sfdefault}
+
+\everymath{\displaystyle} 
+\pagestyle{fancy}
+\hypersetup{colorlinks=true, urlcolor=blue, unicode=true, linkcolor=blue}
+
+\fancyhf{} % sets both header and footer to nothing
+%\renewcommand{\headrulewidth}{0pt}
+
+
+%\lhead{\authorName{} - \authorId}
+\lhead{Grupo \groupId}
+\chead{\includegraphics[scale=0.075]{\logotype}}
+\rhead{página $\thepage$}
+
+\pagenumbering{arabic}
+
+\newcommand{\vs}{\vspace{12pt}}
+\newcommand{\hs}{\hspace{12pt}}
+\parskip 		= 12pt
+\baselineskip 	= 12pt
+
+% define SQL script
+%\begin{minted}[mathescape, linenos, numbersep=5pt, tabsize=4, xleftmargin=10pt,
+%               xrightmargin=10pt, gobble=1, frame=single, framesep=2mm]{sql}
+%	use AdventureWorksDW2012
+%	
+%	SELECT
+%		SUM(SalesAmount)
+%	FROM
+%		FactInternetSales
+%\end{minted}
+
+
+%
+%
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
